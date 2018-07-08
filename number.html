@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+    <title>演算精度の確認</title>
+    <script>
+      'use strict';
+      window.addEventListener("load", function() {
+
+        // 0.00001を足していく
+        document.getElementById( 'number1' ).addEventListener( "click", function() {
+          var x=0.00001;
+          var y=0.0;
+          for( var z=0; z<100000000; z++ )
+            y += x;
+          var v = document.getElementById('view1');
+          var v1 = document.createElement('div');
+          v1.innerHTML = "期待値：1000に対して計算された値：" + y
+          var v2 = document.createElement('div');
+          v2.innerHTML = "参考：0.00001×100000000の計算結果:" + 0.00001*100000000;
+          v.appendChild( v1 );
+          v.appendChild( v2 );
+        });
+
+        // 演算結果が-0.00000になる例
+        document.getElementById( 'number2' ).addEventListener( "click", function() {
+          var x = 0.0001;
+          var y = -1000.0;
+          for( var z=0; z<10000000; z++ )
+            y += x;
+          var v = document.getElementById('view2');
+          var v1 = document.createElement('div');
+          v1.innerHTML = "期待値：0に対して計算された値：" + y;
+          v.appendChild( v1 );
+        });
+
+        // double型の限界その1
+        document.getElementById( 'number3' ).addEventListener( "click", function() {
+          var x = 1e10;
+          var y = Math.pow(10.0,-10);
+
+          var v = document.getElementById('view3');
+          var v1 = document.createElement('div');
+          v1.innerHTML = "x=" + x;
+          v.appendChild( v1 );
+
+          var v2 = document.createElement('div');
+          v2.innerHTML = "y=" + y;
+          v.appendChild( v2 );
+
+          var v3 = document.createElement('div');
+          var z = x + y;
+          v3.innerHTML = "x+y=" + z;
+          v.appendChild( v3 );
+        });
+
+        // double型の限界その2
+        document.getElementById( 'number4' ).addEventListener( "click", function() {
+          var x = Math.pow( 2.0, 53 );
+          var y = 1.0;
+
+          var v = document.getElementById('view4');
+          var v1 = document.createElement('div');
+          v1.innerHTML = "x=" + x;
+          v.appendChild( v1 );
+
+          var v2 = document.createElement('div');
+          v2.innerHTML = "y=" + y;
+          v.appendChild( v2 );
+
+          var v3 = document.createElement('div');
+          var z = x + y;
+          v3.innerHTML = "x+y=" + z;
+          v.appendChild( v3 );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>演算精度の確認</h1>
+    <form>
+      <input type="button" id="number1" value="0.00001を足していく"><br>
+      <div id="view1"></div>
+      <input type="button" id="number2" value="ほぼ0だけど0にならない例"><br>
+      <div id="view2"></div>
+      <input type="button" id="number3" value="double型の限界その1"><br>
+      <div id="view3"></div>
+      <input type="button" id="number4" value="double型の限界その2"><br>
+      <div id="view4"></div>
+    </form>
+  </body>
+</html>
